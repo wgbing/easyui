@@ -1,0 +1,45 @@
+#系统设置
+system:
+  version: 1.0
+  description:
+  name: easyui
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: easyui
+  profiles:
+    active: dev
+  # JPA
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#      naming:
+#        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
+  # Freemarker
+  freemarker:
+    charset: utf-8
+    cache: false
+    prefer-file-system-access: false
+    allowRequestOverride: false
+    allowSessionOverride: false
+    checkTemplateLocation: true
+    contentType: text/html
+    exposeRequestAttributes: false
+    exposeSessionAttributes: false
+    exposeSpringMacroHelpers: false
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    settings.number_format: 0.###
+    settings.date_format: yyyy-MM-dd
+    settings.time_format: HH:mm:ss
+    settings.datetime_format: yyyy-MM-dd HH:mm:ss
