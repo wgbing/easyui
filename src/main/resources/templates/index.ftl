@@ -33,13 +33,29 @@
     <div id="west" class="scrollbar" data-options="region:'west',split:true, border:false, collapsedSize:0" style="width:200px;background-color: #424f63;color:white">
         <div class="west_menu">
             <div class="menu_head">菜单导航</div>
-            <ul id="layout_west_tree" class="easyui-tree"></ul>
+            <ul id="layout_west_tree" class="easyui-tree">
+                <li data-options="iconCls:'glyphicon-list-alt'">
+                    <span>系统管理</span>
+                    <ul>
+                        <li data-options="iconCls:'glyphicon-user'">
+                            <a href="#" target="right-iframe">用户管理</a>
+                        </li>
+                        <li data-options="iconCls:'glyphicon-lock'"><span>组织管理</span></li>
+                        <li data-options="iconCls:'glyphicon-eye-open'"><span>角色管理</span></li>
+                        <li data-options="iconCls:'glyphicon-fire'"><span>角色授权</span></li>
+                        <li data-options="iconCls:'glyphicon-menu-hamburger'"><span>字典管理</span></li>
+                    </ul>
+                </li>
+                <li data-options="iconCls:'glyphicon-compressed'">文章管理</li>
+                <li data-options="iconCls:'glyphicon-send'">运营管理</li>
+            </ul>
+
         </div>
     </div>
     <div data-options="region:'center', border:false">
         <div id="mainTabs" style="height:250px">
             <div title="首页" data-options="iconCls:'glyphicon-home',border:false">
-                <iframe src="http://www.dreamlu.net/" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
+                <iframe src="/main" class="easyui-panel" data-options="fit:true,border:false" frameborder="0"></iframe>
             </div>
         </div>
     </div>

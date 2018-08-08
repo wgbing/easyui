@@ -10,7 +10,6 @@ $(window).load(function(){
 
 var mainTabs;
 var indexTabsMenu;
-var layoutWestTree;
 $(function() {
     $('#mainLayout').layout({fit : true});
     mainTabs = $('#mainTabs').tabs({
@@ -58,30 +57,30 @@ $(function() {
         }
     });
 
-    layoutWestTree = $('#layout_west_tree').tree({
-        url : '/resource/tree',
-        parentField : 'pid',
-        onClick : function(node) {
-            var opts = {
-                title : node.text,
-                border : false,
-                closable : true,
-                fit : true,
-                iconCls : node.iconCls
-            };
-            var url = node.attributes;
-            if (url && url.indexOf("http") == -1) {
-                url = url;
-            }
-            if (node.openMode == 'iframe') {
-                opts.content = '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.5%;"></iframe>';
-                addTab(opts);
-            } else if (url) {
-                opts.href = url;
-                addTab(opts);
-            }
-        }
-    });
+    // layoutWestTree = $('#layout_west_tree').tree({
+    //     url : '/resource/tree',
+    //     parentField : 'pid',
+    //     onClick : function(node) {
+    //         var opts = {
+    //             title : node.text,
+    //             border : false,
+    //             closable : true,
+    //             fit : true,
+    //             iconCls : node.iconCls
+    //         };
+    //         var url = node.attributes;
+    //         if (url && url.indexOf("http") == -1) {
+    //             url = url;
+    //         }
+    //         if (node.openMode == 'iframe') {
+    //             opts.content = '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.5%;"></iframe>';
+    //             addTab(opts);
+    //         } else if (url) {
+    //             opts.href = url;
+    //             addTab(opts);
+    //         }
+    //     }
+    // });
 });
 
 function addTab(opts) {
@@ -112,14 +111,7 @@ function refreshTab() {
 function logout(){
     $.messager.confirm('提示','确定要退出?',function(r){
         if (r){
-            progressLoad();
-            $.post('/logout', function(result) {
-                result = $.parseJSON(result);
-                if(result.success){
-                    progressClose();
-                    window.location.href =  '/';
-                }
-            }, 'text');
+            window.location.href = '/logout';
         }
     });
 }
