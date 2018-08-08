@@ -7,4 +7,6 @@
     <link rel="stylesheet" href="/plugins/jquery-easyui/themes/bootstrap/easyui.css">
     <link rel="stylesheet" href="/plugins/jquery-easyui/themes/icon.css">
     <link rel="stylesheet" href="/plugins/jquery-easyui/themes/color.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/icon.css">
 
