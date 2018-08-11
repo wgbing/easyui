@@ -57,30 +57,30 @@ $(function() {
         }
     });
 
-    // layoutWestTree = $('#layout_west_tree').tree({
-    //     url : '/resource/tree',
-    //     parentField : 'pid',
-    //     onClick : function(node) {
-    //         var opts = {
-    //             title : node.text,
-    //             border : false,
-    //             closable : true,
-    //             fit : true,
-    //             iconCls : node.iconCls
-    //         };
-    //         var url = node.attributes;
-    //         if (url && url.indexOf("http") == -1) {
-    //             url = url;
-    //         }
-    //         if (node.openMode == 'iframe') {
-    //             opts.content = '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.5%;"></iframe>';
-    //             addTab(opts);
-    //         } else if (url) {
-    //             opts.href = url;
-    //             addTab(opts);
-    //         }
-    //     }
-    // });
+    $('#layout_west_tree').tree({
+        onClick: function(node){
+            if(node.attributes != undefined){
+                var url = node.attributes.url;
+                var openMode = node.attributes.openMode;
+                console.log(url);
+                var opts = {
+                    title : node.text,
+                    border : false,
+                    closable : true,
+                    fit : true,
+                    iconCls : node.iconCls
+                };
+                if (openMode == 'iframe') {
+                    opts.content = '<iframe src="' + url + '" frameborder="0" style="border:0;width:100%;height:99.5%;"></iframe>';
+                    addTab(opts);
+                } else if (openMode == 'ajax') {
+                    opts.href = url;
+                    addTab(opts);
+                }
+            }
+        }
+    });
+
 });
 
 function addTab(opts) {

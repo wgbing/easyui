@@ -1,60 +1,28 @@
-package com.jykj.easyui.domain;
+package com.jykj.easyui.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
-
-/**
- * TODO: 组织机构实体
- * @author wgbing
- * @date 2018/7/10 16:40
- */
-@Entity
-@Table(name = "sys_organization")
-public class Organization {
+public class OrganizationVo {
     /* ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /* 父级组织 */
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Organization parent;
+    /* 父级组织Id */
+    private Long parentId;
     /* 组织名称 */
-    @Column(name = "org_name")
     private String orgName;
     /* 组织简称 */
-    @Column(name = "short_name")
     private String shortName;
     /* 备注 */
-    @Column(name = "remark")
     private String remark;
     /* 机构类型 */
-    @Column(name = "type")
     private Integer type;
-    /* 子级组织列表 */
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent",cascade={CascadeType.MERGE},targetEntity = Organization.class)
-    @OrderBy("id asc")
-    private Set<Organization> children;
     /* 排序序号 */
-    @Column(name = "sort_no")
     private Integer sortNo;
-    /* 是否启用 true=正常；false=禁用 */
-    @Column(name = "enable")
+    /* 是否启用 true=启用；false=禁用 */
     private Boolean enable;
     /* 是否已删除：true=未删除；false=已删除 */
-    @Column(name = "deleted")
     private Boolean deleted;
     /* 创建时间 */
-    @Column(name = "create_time")
-    private Date createTime;
+    private String createTime;
     /* 更新时间 */
-    @Column(name = "update_time")
-    private Date updateTime;
+    private String updateTime;
 
     public Long getId() {
         return id;
@@ -64,12 +32,12 @@ public class Organization {
         this.id = id;
     }
 
-    public Organization getParent() {
-        return parent;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setParent(Organization parent) {
-        this.parent = parent;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getOrgName() {
@@ -104,14 +72,6 @@ public class Organization {
         this.type = type;
     }
 
-    public Set<Organization> getChildren() {
-        return children;
-    }
-
-    public void setChildren(Set<Organization> children) {
-        this.children = children;
-    }
-
     public Integer getSortNo() {
         return sortNo;
     }
@@ -136,19 +96,19 @@ public class Organization {
         this.deleted = deleted;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }
