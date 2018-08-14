@@ -10,9 +10,9 @@ $(function() {
         fitColumns : false,
         border : false,
         frozenColumns : [ [ {
-            title : 'orgName',
-            field : 'orgName',
-            width : 180,
+            title : 'id',
+            field : 'id',
+            width : 40,
             hidden : true
         } ] ],
         columns : [ [ {
@@ -24,12 +24,15 @@ $(function() {
             title : '机构简称',
             width : 180
         },{
-            field : 'sortNo',
-            title : '排序号',
-            width : 80
-        },{
             field : 'type',
             title : '机构类型',
+            width : 120,
+            formatter:function (value,row,index) {
+                return CODE_MAP.ORG.TYPE[value];
+            }
+        },{
+            field : 'remark',
+            title : '备注',
             width : 120
         },{
             field : 'updateTime',
@@ -38,16 +41,25 @@ $(function() {
         },{
             field : 'enable',
             title : '状态',
-            width : 120
+            width : 120,
+            formatter : function(value, row, index) {
+                if(value){
+                    return "<span>正常</span>";
+                }else{
+                    return "<span style='color: red'>禁用</span>";
+                }
+            }
         },{
             field : 'action',
             title : '操作',
-            width : 130,
+            width : 260,
             formatter : function(value, row, index) {
                 var str = '';
-                str += $.formatString('<a href="javascript:void(0)" class="organization-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'glyphicon-pencil icon-blue\'" onclick="editOrganizationFun(\'{0}\');" >编辑</a>', row.id);
+                str += $.formatString('<a href="javascript:void(0)" class="organization-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'glyphicon-pencil icon-blue\'" onclick="editOrg(\'{0}\');" >编辑</a>', row.id);
                 str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
-                str += $.formatString('<a href="javascript:void(0)" class="organization-easyui-linkbutton-del" data-options="plain:true,iconCls:\'glyphicon-trash icon-red\'" onclick="deleteOrganizationFun(\'{0}\');" >删除</a>', row.id);
+                str += $.formatString('<a href="javascript:void(0)" class="organization-easyui-linkbutton-del" data-options="plain:true,iconCls:\'glyphicon-trash icon-red\'" onclick="deleteOrg(\'{0}\');" >删除</a>', row.id);
+                str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                str += $.formatString('<a href="javascript:void(0)" class="organization-easyui-linkbutton-add" data-options="plain:true,iconCls:\'glyphicon-plus icon-green\'" onclick="addOrg(\'{0}\');" >新增子机构</a>', row.id);
                 return str;
             }
         },{
@@ -57,12 +69,13 @@ $(function() {
         onLoadSuccess:function(data){
             $('.organization-easyui-linkbutton-edit').linkbutton({text:'编辑'});
             $('.organization-easyui-linkbutton-del').linkbutton({text:'删除'});
+            $('.organization-easyui-linkbutton-add').linkbutton({text:'新增子机构'});
         },
         toolbar : '#orgToolbar'
     });
 });
 
-function editOrganizationFun(id) {
+function editOrg(id) {
     if (id != undefined) {
         orgTreeGrid.treegrid('select', id);
     }
@@ -70,14 +83,14 @@ function editOrganizationFun(id) {
     if (node) {
         parent.$.modalDialog({
             title : '编辑',
-            width : 500,
-            height : 300,
-            href : '/organization/editPage?id=' + node.id,
+            width : 300,
+            height : 330,
+            href : '/sys/org/edit?orgId=' + node.id,
             buttons : [ {
-                text : '编辑',
+                text : '保存',
                 handler : function() {
                     parent.$.modalDialog.openner_treeGrid = orgTreeGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                    var f = parent.$.modalDialog.handler.find('#organizationEditForm');
+                    var f = parent.$.modalDialog.handler.find('#orgEditForm');
                     f.submit();
                 }
             } ]
@@ -85,45 +98,75 @@ function editOrganizationFun(id) {
     }
 }
 
-function deleteOrganizationFun(id) {
+function deleteOrg(id) {
     if (id != undefined) {
         orgTreeGrid.treegrid('select', id);
     }
     var node = orgTreeGrid.treegrid('getSelected');
     if (node) {
-        parent.$.messager.confirm('询问', '您是否要删除当前资源？删除当前资源会连同子资源一起删除!', function(b) {
-            if (b) {
+        parent.$.messager.confirm('询问', '您是否要删除当前部门？<br/>删除当前部门会连同子部门一起删除!', function(r) {
+            if (r) {
                 progressLoad();
-                $.post('/organization/delete', {
-                    id : node.id
-                }, function(result) {
-                    result = $.parseJSON(result);
-                    if (result.success) {
-                        parent.$.messager.alert('提示', result.msg, 'info');
-                        orgTreeGrid.treegrid('reload');
-                    }else{
-                        parent.$.messager.alert('提示', result.msg, 'info');
-                    }
-                    progressClose();
-                }, 'text');
+                $.ajax({
+                    url: "/sys/org/delete",
+                    data:{
+                        orgId:node.id
+                    },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            parent.$.messager.alert('提示', result.message, 'info');
+                            orgTreeGrid.treegrid('reload');
+                        }else{
+                            parent.$.messager.alert('提示', result.message, 'info');
+                        }
+                    },
+                    error: ajaxErrorHandler
+                });
+                progressClose();
             }
         });
     }
 }
 
-function addOrganizationFun() {
+function addOrg(id) {
+    if (id != undefined) {
+        orgTreeGrid.treegrid('select', id);
+    }
+    var node = orgTreeGrid.treegrid('getSelected');
+    if (node) {
+        parent.$.modalDialog({
+            title : '添加子部门',
+            width : 300,
+            height : 330,
+            href : '/sys/org/add?orgId='+node.id,
+            buttons : [ {
+                text : '提交',
+                handler : function() {
+                    parent.$.modalDialog.openner_treeGrid = orgTreeGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                    var f = parent.$.modalDialog.handler.find('#orgAddForm');
+                    f.submit();
+                }
+            } ]
+        });
+    }
+}
+
+function addRootOrg() {
     parent.$.modalDialog({
-        title : '添加',
-        width : 500,
-        height : 300,
-        href : '/organization/addPage',
+        title : '添加根部门',
+        width : 300,
+        height : 330,
+        href : '/sys/org/add',
         buttons : [ {
-            text : '添加',
+            text : '提交',
             handler : function() {
                 parent.$.modalDialog.openner_treeGrid = orgTreeGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                var f = parent.$.modalDialog.handler.find('#organizationAddForm');
+                var f = parent.$.modalDialog.handler.find('#orgAddForm');
                 f.submit();
             }
         } ]
     });
 }
+

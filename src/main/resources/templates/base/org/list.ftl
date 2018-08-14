@@ -4,6 +4,6 @@
         <table id="orgTreeGrid"></table>
     </div>
     <div id="orgToolbar" style="display: none;">
-        <a onclick="addOrganizationFun();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'glyphicon-plus icon-green'">添加</a>
+        <a onclick="addRootOrg();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'glyphicon-plus icon-green'">添加</a>
     </div>
 </div>

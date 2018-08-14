@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: 用户组织机构业务逻辑处理层
@@ -38,8 +39,10 @@ public class OrganizationService {
                 orgVo.setId(org.getId());
                 if(org.getParent() != null){
                     orgVo.setParentId(org.getParent().getId());
+                    orgVo.setIconCls("glyphicon-wrench");
                 }else {
                     orgVo.setParentId(null);
+                    orgVo.setIconCls("glyphicon-lock");
                 }
                 orgVo.setOrgName(org.getOrgName());
                 orgVo.setShortName(org.getShortName());
@@ -85,54 +88,38 @@ public class OrganizationService {
         }
         Organization org = new Organization();
         Date currDate = new Date();
+
+        if(orgVo.getId() != null){//更新
+            org = this.organizationDao.findOne(orgVo.getId());
+            org.setUpdateTime(currDate);
+        }else {//新增
+            org.setDeleted(false);
+            org.setCreateTime(currDate);
+            org.setUpdateTime(currDate);
+            if(orgVo.getParentId() != null){
+                Organization parentOrg = this.organizationDao.findOne(orgVo.getParentId());
+                org.setParent(parentOrg);
+            }else {
+                org.setParent(null);
+            }
+        }
         org.setOrgName(orgVo.getOrgName());
         org.setShortName(orgVo.getShortName());
         org.setRemark(orgVo.getRemark());
         org.setSortNo(orgVo.getSortNo());
         org.setEnable(orgVo.getEnable());
-        if(orgVo.getParentId() != null){
-            Organization parentOrg = this.organizationDao.findOne(orgVo.getParentId());
-            org.setParent(parentOrg);
-        }else {
-            org.setParent(null);
-        }
         org.setType(orgVo.getType());
-        org.setDeleted(false);
-        org.setCreateTime(currDate);
-        org.setUpdateTime(currDate);
+
         this.organizationDao.save(org);
 
         return R.success();
     }
 
-    public R disableOrg(Long orgId) {
-        Organization org = this.organizationDao.findOne(orgId);
-        org.setEnable(false);
-        return R.success();
-    }
-
-    public R enableOrg(Long orgId) {
-        Organization org = this.organizationDao.findOne(orgId);
-        org.setEnable(true);
-        return R.success();
-    }
-
     public R deleteOrg(Long orgId) {
-        this.organizationDao.delete(orgId);
+        Organization rootOrg = this.organizationDao.findOne(orgId);
+        Set<Organization> childrenOrg = rootOrg.getChildren();
+        //todo:删除逻辑
         return R.success();
     }
 
-    public List<OrganizationVo> createOrgTree(Long parentId) {
-        List<OrganizationVo> orgTreeList = new ArrayList<>();
-        List<Organization> orgList = this.organizationDao.findAllByParentId(parentId);
-        if(orgList != null && !orgList.isEmpty()){
-            for (Organization org : orgList){
-                OrganizationVo orgVo = new OrganizationVo();
-                orgVo.setId(org.getId());
-                orgVo.setOrgName(org.getOrgName());
-                orgTreeList.add(orgVo);
-            }
-        }
-        return orgTreeList;
-    }
 }

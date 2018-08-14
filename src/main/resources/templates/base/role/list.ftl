@@ -1,95 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>系统管理 | 角色管理</title>
-    <#include "../../include/header_css.ftl">
-</head>
-<body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 no-padding">
-            <div class="box no-border">
-                <div class="box-header">
-                    <div class="title"><i class="fa fa-sitemap" style="font-size: 17px">&nbsp;组织机构</i></div>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-box-tool"><i class="fa fa-chevron-down"></i></button>
-                        <button class="btn btn-box-tool"><i class="fa fa-refresh"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <ul id="orgTree" class="ztree"></ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-10">
-            <div class="box no-border">
-                <div class="box-header">
-                    <div class="title"><i class="fa fa-street-view" style="font-size: 17px">&nbsp;角色管理</i></div>
-                    <div class="box-tools pull-right">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-default" id="btn_search" title="查询" onclick="showSearch()"><i class="fa fa-filter"></i> 查询</a>
-                            <a href="#" class="btn btn-default" id="btn_refreshTree" title="刷新" onclick="refreshTree()"><i class="fa fa-refresh"></i> 刷新</a>
-                            <a href="#" class="btn btn-default" id="btn_expandTreeNode" title="展开" onclick="expandTreeNode()"><i class="fa fa-angle-double-down"></i> 展开</a>
-                            <a href="#" class="btn btn-default" id="btn_collapseTreeNode" title="折叠全部" onclick="collapseTreeNode()"><i class="fa fa-angle-double-up"></i> 折叠</a>
-                            <a href="#" class="btn btn-default" id="btn_addOrg" title="新增机构" onclick="addRootOrg()"><i class="fa fa-plus"></i> 新增</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <!-- searchForm -->
-                        <form id="searchForm" name="searchForm" class="form-horizontal" hidden>
-                            <h5 class="page-header"></h5>
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" title="">
-                                        <span class="required hide">*</span> 文本：<i class="fa icon-question hide"></i></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" title="">
-                                        <span class="required hide">*</span> 文本：<i class="fa icon-question hide"></i></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" title="">
-                                        <span class="required hide">*</span> 文本：<i class="fa icon-question hide"></i></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-4" title="">
-                                        <span class="required hide">*</span> 文本：<i class="fa icon-question hide"></i></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- /.searchForm -->
-                    </div>
-                    <div class="row">
-                        <table id="dataGrid"></table>
-                    </div>
-                </div>
-            </div>
-        </div>
+<script src="/js/base/role/list.js"></script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'north',border:false" style="height: 30px; overflow: hidden;background-color: #fff;margin: 5px">
+        <form id="searchRoleForm">
+            <table>
+                <tr>
+                    <td style="padding-right: 5px;padding-left: 5px;">名称:&nbsp;</td>
+                    <td><input name="name" type="text" placeholder="请输入角色名称" class="easyui-textbox" ></td>
+                    <td style="padding-right: 5px;padding-left: 5px;">更新时间:</td>
+                    <td>
+                        <input name="beginTime" type="text" placeholder="点击选择时间" class="easyui-datebox" >
+                    </td>
+                    <td style="padding-right: 5px;padding-left: 5px;">至</td>
+                    <td>
+                        <input name="endTime" type="text" placeholder="点击选择时间" class="easyui-datebox" >
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'glyphicon-search',plain:true" onclick="searchRoleFun();">查询</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'glyphicon-remove-circle',plain:true" onclick="cleanRoleFun();">清空</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div data-options="region:'center',border:false"">
+        <table id="roleDataGrid" data-options="fit:true,border:false"></table>
     </div>
 </div>
-
-<#include "../../include/footer_js.ftl">
-<script src="/js/base/role/list.js"></script>
-</body>
-</html>
+<div id="roleToolbar" style="display: none;">
+        <a onclick="addRole();" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'glyphicon-plus icon-green'">添加</a>
+</div>

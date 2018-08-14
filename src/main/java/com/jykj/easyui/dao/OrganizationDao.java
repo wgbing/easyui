@@ -11,6 +11,5 @@ import java.util.List;
  * @date 2018/7/12 下午11:17
  */
 public interface OrganizationDao extends JpaRepository<Organization, Long> {
-    List<Organization> findAllByParentId(Long parentId);
 
 }

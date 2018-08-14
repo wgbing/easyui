@@ -9,6 +9,8 @@ public class OrganizationVo {
     private String orgName;
     /* 组织简称 */
     private String shortName;
+    /* 显示图标 */
+    private String iconCls;
     /* 备注 */
     private String remark;
     /* 机构类型 */
@@ -54,6 +56,14 @@ public class OrganizationVo {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public String getIconCls() {
+        return iconCls;
+    }
+
+    public void setIconCls(String iconCls) {
+        this.iconCls = iconCls;
     }
 
     public String getRemark() {

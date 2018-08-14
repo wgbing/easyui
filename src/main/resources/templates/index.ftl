@@ -40,12 +40,12 @@
                     <ul>
                         <li data-options="iconCls:'glyphicon-user',attributes:{'url':'/sys/user','openMode':'ajax'} "><span>用户管理</span></li>
                         <li data-options="iconCls:'glyphicon-lock',attributes:{'url':'/sys/org/index','openMode':'ajax'} "><span>组织管理</span></li>
-                        <li data-options="iconCls:'glyphicon-eye-open'"><span>角色管理</span></li>
+                        <li data-options="iconCls:'glyphicon-eye-open',attributes:{'url':'/sys/role/index','openMode':'ajax'} "><span>角色管理</span></li>
                         <li data-options="iconCls:'glyphicon-fire'"><span>角色授权</span></li>
                         <li data-options="iconCls:'glyphicon-menu-hamburger'"><span>字典管理</span></li>
                     </ul>
                 </li>
-                <li data-options="iconCls:'glyphicon-compressed'">数据统计</li>
+                <li data-options="iconCls:'glyphicon-picture',attributes:{'url':'/icons','openMode':'ajax'} ">系统图标</li>
                 <li data-options="iconCls:'glyphicon-send'">运营管理</li>
             </ul>
         </div>

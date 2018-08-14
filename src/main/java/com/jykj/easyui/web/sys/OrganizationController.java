@@ -28,7 +28,7 @@ public class OrganizationController {
     /**
      * TODO: 系统管理 | 组织管理页面
      * @author wgbing
-     * @date 2018/7/26 下午11:23
+     * @date 2018/8/11 下午11:23
      */
     @GetMapping("/index")
     public String orgIndex(){
@@ -76,33 +76,11 @@ public class OrganizationController {
      * @date 2018/7/27 16:01
      */
     @GetMapping("/edit")
-    public String edit(@RequestParam(value = "orgId",required = true) Long orgId){
+    public String edit(@RequestParam(value = "orgId",required = true) Long orgId,
+                       Map<String,Object> map){
         OrganizationVo orgVo = organizationService.findOne(orgId);
+        map.put("org",orgVo);
         return "/base/org/edit";
-    }
-
-    /**
-     * TODO: 停用机构
-     * @author wgbing
-     * @date 2018/7/30 14:56
-     * @param orgId 机构Id
-     */
-    @ResponseBody
-    @GetMapping("/disable")
-    public R disable(@RequestParam(value = "orgId",required = true) Long orgId){
-        return organizationService.disableOrg(orgId);
-    }
-
-    /**
-     * TODO: 启用机构
-     * @author wgbing
-     * @date 2018/7/30 14:56
-     * @param orgId 机构Id
-     */
-    @ResponseBody
-    @GetMapping("/enable")
-    public R enable(@RequestParam(value = "orgId",required = true) Long orgId){
-        return organizationService.enableOrg(orgId);
     }
 
     /**
@@ -117,9 +95,4 @@ public class OrganizationController {
         return organizationService.deleteOrg(orgId);
     }
 
-    @ResponseBody
-    @GetMapping("/tree")
-    public List<OrganizationVo> createOrgTree(@RequestParam(value = "orgId",required = false) Long parentId){
-        return organizationService.createOrgTree(parentId);
-    }
 }

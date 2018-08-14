@@ -1,54 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>组织管理 | 编辑机构</title>
-    <#include "../../include/header_css.ftl">
-</head>
-<body>
-<div class="content-wrapper">
-    <section class="container-fluid">
-        <table class="form" id="form">
+<script src="/js/base/org/edit.js"></script>
+<script type="text/javascript">
+    $("#orgEditEnable").val('${(org.enable)?c}');
+    $("#orgEditType").val('${org.type}');
+</script>
+<div style="padding: 3px;">
+    <form id="orgEditForm" method="post">
+        <#if _csrf?? && _csrf.parameterName??>
+            <input type="hidden" name="${_csrf.parameterName?default('_csrf')}" value="${_csrf.token?default('')}"/>
+        </#if>
+        <input type="hidden" name="id" value="${org.id}"/>
+        <input type="hidden" name="parentId" value="${(org.parentId)!''}"/>
+        <table class="grid">
             <tr>
-                <td class="formTitle"><span style="color:red">*&nbsp;</span>机构名称</td>
-                <td class="formValue">
-                    <input type="text" class="form-control" placeholder="机构名称">
+                <td>机构名称</td>
+                <td><input name="orgName" type="text" value="${(org.orgName)!''}" placeholder="请输入机构名称" class="easyui-validatebox" data-options="required:true" ></td>
+            </tr>
+            <tr>
+                <td>机构简称</td>
+                <td><input name="shortName" type="text" value="${(org.shortName)!''}" placeholder="请输入机构简称" class="easyui-validatebox" data-options="required:true" ></td>
+            </tr>
+            <tr>
+                <td>排序</td>
+                <td><input name="sortNo" class="easyui-numberspinner" value="${(org.sortNo)!''}" style="width: 140px; height: 29px;" required="required" data-options="min:1,editable:false" value="1"></td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>
+                    <select id="orgEditEnable" name="enable" class="easyui-combobox" data-options="width:140,height:29,editable:false,panelHeight:'auto'">
+                        <option value="true">正常</option>
+                        <option value="false">禁用</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <td class="formTitle"><span style="color:red;">*&nbsp;</span>机构简称</td>
-                <td class="formValue">
-                    <input type="text" class="form-control" placeholder="机构简称">
+                <td>机构类型</td>
+                <td>
+                    <select id="orgEditType" name="type" class="easyui-combobox" data-options="width:140,height:29,editable:false,panelHeight:'auto'">
+                        <option value="1">一级机构</option>
+                        <option value="2">二级机构</option>
+                        <option value="3">三级机构</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <td class="formTitle"><span style="color:red">*&nbsp;</span>上级机构</td>
-                <td class="formValue">
-                    <input type="text" class="form-control pointer" placeholder="一级机构" readonly="readonly">
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">排序号</td>
-                <td class="formValue">
-                    <input type="text" class="form-control" placeholder="排序号">
-                </td>
-            </tr>
-            <tr>
-                <td class="formTitle">状态</td>
-                <td class="formValue">
-                    <input name="status" type="checkbox" checked />
-                </td>
+                <td>备注</td>
+                <td><input name="remark" type="text" value="${(org.remark)!''}" placeholder="请输入备注" class="easyui-validatebox"></td>
             </tr>
         </table>
-    </section>
-
-    <section class="content-footer">
-        <button type="button" id="btn_cancel" class="btn btn-default pull-right">取消</button>
-        <button type="button" id="btn_confirm" class="btn btn-info pull-right">确定</button>
-        <script>document.getElementsByTagName("body")[0].setAttribute("style", "padding-bottom: 54px !important")</script>
-    </section>
+    </form>
 </div>
-
-<#include "../../include/footer_js.ftl">
-<script src="/js/base/org/edit.js"></script>
-</body>
-</html>

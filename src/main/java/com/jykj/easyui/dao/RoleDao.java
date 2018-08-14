@@ -1,7 +1,10 @@
 package com.jykj.easyui.dao;
 
 
+import com.jykj.easyui.common.DataTableOutput;
+import com.jykj.easyui.common.PageInfo;
 import com.jykj.easyui.domain.Role;
+import com.jykj.easyui.vo.RoleVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -11,4 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RoleDao extends JpaRepository<Role, Long> {
 
+    DataTableOutput<RoleVo> listRole(PageInfo pageInfo);
 }

@@ -5,3 +5,5 @@
 <script src="/plugins/jquery-easyui/easyui-lang-zh_CN.js"></script>
 <!-- 扩展JS -->
 <script src="/js/extJs.js"></script>
+<script src="/js/cdl-codemap.js"></script>
+<script src="/js/common.js"></script>

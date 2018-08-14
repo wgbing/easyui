@@ -121,7 +121,7 @@ function editUserPwd() {
         title : '修改密码',
         width : 300,
         height : 217,
-        href :  '/user/editPwdPage',
+        href :  '/sys/user/editPwdIndex',
         buttons : [ {
             text : '确定',
             handler : function() {

@@ -23,11 +23,11 @@
         </div>
         <P style="padding: 30px 0px 10px; position: relative;">
             <span class="u_logo"></span>
-            <input class="ipt" type="text" id="username" name="username" placeholder="请输入登录名"/>
+            <input class="ipt" type="text" id="username" name="username" placeholder="请输入登录名" value="admin"/>
         </P>
         <P style="position: relative;">
             <span class="p_logo"></span>
-            <input class="ipt" type="password" id="password" name="password" placeholder="请输入密码"/>
+            <input class="ipt" type="password" id="password" name="password" placeholder="请输入密码" value="admin@123"/>
         </P>
         <P style="padding: 10px 0px 10px; position: relative;">
             <input class="captcha" type="text" id="captcha" name="captcha" placeholder="请输入验证码" maxlength="4" autocomplete="off"/>
